@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <script src="js/campo-minado.js"></script>
+    </head>
+    <body>
+        <div id="exibir-execucao"></div>
+
+        <script>
+            var campoMinado = new CampoMinado();
+            
+            document.getElementById('exibir-execucao').innerHTML += '----------- Início do jogo -----------';
+            document.getElementById('exibir-execucao').innerHTML += '<pre>' + campoMinado.Tabuleiro() + '</pre>';
+            
+            const solucionarJogo = () =>{
+                do{
+                    let flag = 0
+
+                    let bombas = [
+                        [0, 8],
+                        [3, 1],
+                        [3, 2],
+                        [4, 3],
+                        [4, 4],
+                        [4, 6],
+                        [5, 4],
+                        [5, 5],
+                        [5, 7],
+                        [6, 8]
+                    ]
+
+                    document.getElementById('exibir-execucao').innerHTML += `<br>----------- Status: Jogo em aberto -----------<br>`;
+                    
+                    const linha = Math.floor(Math.random() * 10)
+                    const coluna = Math.floor(Math.random() * 10)
+
+                    campoMinado.Abrir(linha, coluna)
+                    document.getElementById('exibir-execucao').innerHTML += `<br>Abrindo casa: Linha ${linha} / Coluna ${coluna}`
+                    console.log(`Linha: ${linha} -- Coluna ${coluna}`)
+                    for(let i=0; i<bombas.length; i++){
+                        console.log(bombas[i][0], bombas[i][1])
+                        if(bombas[i][0] == linha && bombas[i][1] == coluna){
+                            flag = 1
+                        }
+                    }
+
+                    if(flag){
+                        document.getElementById('exibir-execucao').innerHTML += `<br>Bomba encontrada: linha ${linha} / coluna ${coluna}`
+                        break
+                    }
+
+                }while(campoMinado.JogoStatus() == 0);
+                
+                if(campoMinado.JogoStatus() == 1){  
+                    document.getElementById('exibir-execucao').innerHTML += (`<br>----------- Status: Vitoria -----------`)
+                    document.getElementById('exibir-execucao').innerHTML += ''
+                } else{
+                    document.getElementById('exibir-execucao').innerHTML += (`<br>----------- Status: Derrota -----------`)
+                    document.getElementById('exibir-execucao').innerHTML += ''
+                }
+
+            }
+
+            solucionarJogo()
+
+        </script>
+    </body>
+</html>
